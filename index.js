@@ -1,4 +1,4 @@
-const port = 4000;
+const port = 3000;
 const express = require('express')
 const app = express();
 const mongoose= require('mongoose')
@@ -34,48 +34,48 @@ const fetchuser = async (req, res, next) => {
 };
 
 
-// // Image Storage Engine
-// const storage = multer.diskStorage({
-//     destination: './upload/images',
-//     filename: (req, file, cb) => {
-//         console.log(file); // Log file information for debugging
-//         cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
-//     }
-// });
-
-// const upload = multer({ storage: storage });
-
-// // Serve static files from the 'upload/images' directory
-// app.use('/images', express.static('upload/images'));
-
-// // Handle file upload via POST request
-// app.post("/upload", upload.single('product'), (req, res) => {
-//     if (req.file) {
-//         res.json({
-//             success: 1,
-//             image_url: `http://localhost:${port}/images/${req.file.filename}`
-//         });
-//     } else {
-//         res.status(400).json({ success: 0, message: "No file uploaded" });
-//     }
-// });
-
-//Image Storage Engine 
+// Image Storage Engine
 const storage = multer.diskStorage({
     destination: './upload/images',
     filename: (req, file, cb) => {
-      console.log(file);
-        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+        console.log(file); // Log file information for debugging
+        cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
     }
-})
-const upload = multer({storage: storage})
+});
+
+const upload = multer({ storage: storage });
+
+// Serve static files from the 'upload/images' directory
 app.use('/images', express.static('upload/images'));
+
+// Handle file upload via POST request
 app.post("/upload", upload.single('product'), (req, res) => {
-    res.json({
-        success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
-    })
-})
+    if (req.file) {
+        res.json({
+            success: 1,
+            image_url: `http://localhost:${port}/images/${req.file.filename}`
+        });
+    } else {
+        res.status(400).json({ success: 0, message: "No file uploaded" });
+    }
+});
+
+// //Image Storage Engine 
+// const storage = multer.diskStorage({
+//     destination: './upload/images',
+//     filename: (req, file, cb) => {
+//       console.log(file);
+//         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+//     }
+// })
+// const upload = multer({storage: storage})
+// app.use('/images', express.static('upload/images'));
+// app.post("/upload", upload.single('product'), (req, res) => {
+//     res.json({
+//         success: 1,
+//         image_url: `http://localhost:${port}/images/${req.file.filename}`
+//     })
+// })
 
 
 // Schema for creating Product
